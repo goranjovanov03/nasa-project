@@ -1,5 +1,12 @@
 const launches = new Map();
 
+
+let latestFlightNumber = 100;
+
+function existsLaunchWithId(launchId){
+    return launches.has(launchId);
+}
+
 const launch = {
     flightNumber:100,
     mission:'Kepler Exploration X',
@@ -13,7 +20,35 @@ const launch = {
 
 launches.set(launch.flightNumber, launch);
 
+function getAllLaunches(){
+    return Array.from(launch.values());
+}
+
+function addNewLunch(launch){
+    latestFlightNumber++;
+    launches.set(
+        launch.flightNumber,
+        Object.assign(launch,{
+            success:true,
+            upcoming:true,
+            customers:['Zero to Mastery','NASA'],
+            flightNumber:latestFlightNumber,
+        })
+    );
+}
+
+
+function abortLaunchById(launchId){
+ const aborted = launch.get(launchId);
+ aborted.upcoming = false;
+ aborted.success = false;
+ return aborted;
+}
+
 
 module.exports = {
-    launches
+    getAllLaunches,
+    addNewLunch,
+    existsLaunchWithId,
+    abortLaunchById,
 }
